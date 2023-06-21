@@ -1,5 +1,4 @@
 import { Controller, Get, Logger, Query } from '@nestjs/common';
-import { IStatus } from './status.interface';
 import { StatusService } from './status.service';
 import { ApiQuery } from '@nestjs/swagger';
 import { Status, UserStatus } from 'src/entities/status.entity';

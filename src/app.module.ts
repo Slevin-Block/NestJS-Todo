@@ -10,6 +10,7 @@ import { RequestService } from './request.service';
 import { AuthentifiactionMiddleware } from './middleware/authentification.middleware';
 import { UserModule } from './user/user.module';
 import { TodoModule } from './todo/todo.module';
+import { PlanningModule } from './planning/planning.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { TodoModule } from './todo/todo.module';
     StatusModule,
     UserModule,
     TodoModule,
+    PlanningModule,
   ],
   controllers: [AppController],
   providers: [AppService, RequestService],

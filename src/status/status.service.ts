@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { IStatus } from './status.interface';
 import { Status } from 'src/entities/status.entity';
 
 @Injectable()
@@ -29,7 +28,7 @@ export class StatusService {
         .where(`status.${type} = :payload`, { payload });
       return response.getOne();
     } catch (e) {
-      this.logger.error(e);
+      this.logger.error('erreur' + e);
     }
   }
 }

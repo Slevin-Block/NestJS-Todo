@@ -2,11 +2,14 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Status } from './status.entity';
 import { v4 as uuid } from 'uuid';
+import { Todo } from './todo.entity';
 
 @Entity()
 export class User {
@@ -20,10 +23,18 @@ export class User {
   @JoinColumn()
   status: Status;
 
+  @ManyToMany(() => Todo, (todo) => todo?.users, { eager: true })
+  @JoinTable({ name: 'planning' })
+  todos?: Todo[];
+
   constructor(name: string, status: Status) {
     this.id = uuid();
     this.name = name;
     this.status = status;
+  }
+
+  initTodos() {
+    this.todos = [];
   }
 }
 

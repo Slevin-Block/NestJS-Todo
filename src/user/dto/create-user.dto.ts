@@ -1,3 +1,4 @@
+import { PartialType } from '@nestjs/swagger';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, Length, IsNotEmpty, IsEnum } from 'class-validator';
 import { UserStatus } from 'src/entities/status.entity';
@@ -22,3 +23,5 @@ export class CreateUserDto {
   @IsEnum(UserStatus)
   readonly status: UserStatus;
 }
+
+export class UpdateUserDto extends PartialType(CreateUserDto) {}

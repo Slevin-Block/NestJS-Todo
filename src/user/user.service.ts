@@ -16,6 +16,20 @@ export class UserService {
     private readonly statusService: StatusService,
   ) {}
 
+  async findOne(id: string): Promise<User> {
+    try {
+      const user = await this.userRepository
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.status', 'status')
+        .leftJoinAndSelect('user.todos', 'todos')
+        .where('user.id = :id', { id })
+        .getOne();
+      return user;
+    } catch (e) {
+      this.Logger.error(e);
+    }
+  }
+
   async findAll(): Promise<IUser[]> {
     try {
       //const status = await this.statusService.findAll();
@@ -23,6 +37,7 @@ export class UserService {
       const response = await this.userRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.status', 'status')
+        .leftJoinAndSelect('user.todos', 'todos')
         .getMany();
       const users: IUser[] = response.map((user) => {
         return { ...user, status: user.status.label };

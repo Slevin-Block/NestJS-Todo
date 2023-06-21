@@ -1,5 +1,12 @@
+import { PartialType } from '@nestjs/swagger';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, Length, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  Length,
+  IsNotEmpty,
+  IsOptional,
+  IsBoolean,
+} from 'class-validator';
 
 export class CreateTodoDto {
   //* TITLE
@@ -25,4 +32,16 @@ export class CreateTodoDto {
   @IsNotEmpty()
   @Length(3, 50)
   readonly description: string;
+
+  //* DONE
+  @ApiProperty({
+    description: 'Todo check or not',
+    default: false,
+  })
+  @IsBoolean()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly done: boolean;
 }
+
+export class UpdateTodoDto extends PartialType(CreateTodoDto) {}

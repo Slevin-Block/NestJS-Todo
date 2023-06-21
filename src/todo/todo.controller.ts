@@ -10,9 +10,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
-import { CreateTodoDto } from './dto/create-todo.dto';
-import { UpdateTodoDto } from './dto/update-todo.dto';
-
+import { CreateTodoDto, UpdateTodoDto } from './dto/todo.dto';
 @Controller('todo')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
@@ -32,12 +30,20 @@ export class TodoController {
     await this.todoService.create(body);
   }
 
+  @Patch('/switch/:id')
+  async switch(@Param('id', ParseUUIDPipe) id: string) {
+    if (!(await this.todoService.switch(id))) {
+      throw new NotFoundException();
+    }
+  }
   @Patch(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() body: UpdateTodoDto,
   ) {
-    await this.todoService.update(id, body);
+    if (!(await this.todoService.update(id, body))) {
+      throw new NotFoundException();
+    }
   }
 
   @Delete(':id')
